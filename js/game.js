@@ -5,10 +5,10 @@ var config = {
     physics: {
         default: "arcade",
         arcade: {
-            gravity: {y: 200}
+            gravity: {y: 300}
         }
     },
-    scene: [ Level1 ]
+    scene: [ MainMenu, Level1, Level2 ]
 }
 
 var game = new Phaser.Game(config);
