@@ -9,6 +9,7 @@ class Level1 extends Phaser.Scene {
     preload() {
         this.load.image("Background", "assets/background.jpg");
         this.load.image("Player", "assets/player.png");
+        this.load.image("Finish", "assets/finish.png");
     }
 
     create() {
@@ -25,6 +26,9 @@ class Level1 extends Phaser.Scene {
 
         this.line = this.add.line(0, 0, 0, 0, 0, 0, 0xff0000).setOrigin(0, 0);
 
+        this.finish = this.physics.add.staticGroup();
+        this.finish.create(600, 600-80, "Finish").setScale(0.5).refreshBody();
+
         // Adding events
         this.input.on("pointerup", (e) => {
             //if (!Level1.clicked) {
@@ -33,6 +37,9 @@ class Level1 extends Phaser.Scene {
                 Level1.clicked = true;
             //}
         });
+
+        // Physics events
+        this.physics.add.overlap(this.player, this.finish, this.levelFinish, null, this);
     }
 
     static lastLine;
@@ -53,5 +60,9 @@ class Level1 extends Phaser.Scene {
         } else {
             this.line.destroy();
         }
+    }
+
+    levelFinish(player, finish) {
+        console.log("You Win!");
     }
 }
