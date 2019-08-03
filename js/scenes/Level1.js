@@ -16,10 +16,10 @@ class Level1 extends Phaser.Scene {
     create() {
         // Configuring my Scene
         this.add.image(400, 300, "Background").setScale(1.5);
+        this.add.text(280, 100, 'You have only ONE SHOT!', { fill: '#FFF' });
 
         this.player = this.physics.add.image(100, 450, "Player");
         this.player.setInteractive();
-        //this.player.setCollideWorldBounds(true);
         this.player.setBounce(0.25);
         this.player.body.setMaxSpeed(1000);
         this.player.scaleX = this.player.scaleX / 5;
