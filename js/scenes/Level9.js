@@ -23,17 +23,17 @@ class Level9 extends Phaser.Scene {
         this.add.image(400, 300, "Background").setScale(1.5);
 
         // Buttons and UI
-        var mainMenu = this.add.text(50, 25, "Main menu", { fontFamily: "Verdana, 'Times New Roman', Tahoma, serif", fill: "#FFF" })
-            .setInteractive()
-            .on("pointerup", () => this.scene.start("MainMenu"))
-            .on("pointerover", () => this.enterButtonHoverState(mainMenu))
-            .on("pointerout", () => this.enterButtonRestState(mainMenu));
-
-        var restart = this.add.text(700, 25, "Restart", { fontFamily: "Verdana, 'Times New Roman', Tahoma, serif", fill: "#FFF" })
+        var restart = this.add.text(50, 25, "Restart", { fontFamily: "Verdana, 'Times New Roman', Tahoma, serif", fill: "#FFF" })
             .setInteractive()
             .on("pointerup", () => this.scene.start())
             .on("pointerover", () => this.enterButtonHoverState(restart))
             .on("pointerout", () => this.enterButtonRestState(restart));
+
+        var mainMenu = this.add.text(660, 25, "Main menu", { fontFamily: "Verdana, 'Times New Roman', Tahoma, serif", fill: "#FFF" })
+            .setInteractive()
+            .on("pointerup", () => this.scene.start("MainMenu"))
+            .on("pointerover", () => this.enterButtonHoverState(mainMenu))
+            .on("pointerout", () => this.enterButtonRestState(mainMenu));
         
         // Creating the player
         this.player = this.matter.add.image(100, 50, "Player")
@@ -111,7 +111,14 @@ class Level9 extends Phaser.Scene {
     }
 
     levelFinish() {
-        console.log("You Win!");
+        this.add.text(290, 220, 'You SCORED!', { fill: '#FFF' }).setScale(2);
+        var nextLevel = this.add.text(330, 260, "Next Level", { fontFamily: "Verdana, 'Times New Roman', Tahoma, serif", fill: "#FFF" })
+            .setScale(1.5)
+            .setInteractive()
+            .on("pointerup", () => this.scene.start("Level10"))
+            .on("pointerover", () => this.enterButtonHoverState(nextLevel))
+            .on("pointerout", () => this.enterButtonRestState(nextLevel));
+
         this.matter.pause();
     }
 

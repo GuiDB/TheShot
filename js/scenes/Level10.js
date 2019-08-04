@@ -23,17 +23,17 @@ class Level10 extends Phaser.Scene {
         this.add.image(400, 300, "Background").setScale(1.5);
 
         // Buttons and UI
-        var mainMenu = this.add.text(50, 25, "Main menu", { fontFamily: "Verdana, 'Times New Roman', Tahoma, serif", fill: "#FFF" })
-            .setInteractive()
-            .on("pointerup", () => this.scene.start("MainMenu"))
-            .on("pointerover", () => this.enterButtonHoverState(mainMenu))
-            .on("pointerout", () => this.enterButtonRestState(mainMenu));
-
-        var restart = this.add.text(700, 25, "Restart", { fontFamily: "Verdana, 'Times New Roman', Tahoma, serif", fill: "#FFF" })
+        var restart = this.add.text(50, 25, "Restart", { fontFamily: "Verdana, 'Times New Roman', Tahoma, serif", fill: "#FFF" })
             .setInteractive()
             .on("pointerup", () => this.scene.start())
             .on("pointerover", () => this.enterButtonHoverState(restart))
             .on("pointerout", () => this.enterButtonRestState(restart));
+
+        var mainMenu = this.add.text(660, 25, "Main menu", { fontFamily: "Verdana, 'Times New Roman', Tahoma, serif", fill: "#FFF" })
+            .setInteractive()
+            .on("pointerup", () => this.scene.start("MainMenu"))
+            .on("pointerover", () => this.enterButtonHoverState(mainMenu))
+            .on("pointerout", () => this.enterButtonRestState(mainMenu));
         
         // Creating the player
         this.player = this.matter.add.image(100, 50, "Player")
@@ -120,7 +120,9 @@ class Level10 extends Phaser.Scene {
     }
 
     levelFinish() {
-        console.log("You Win!");
+        this.add.text(250, 220, 'CONGRATULATIONS!', { fill: '#FFF' }).setScale(2);
+        this.add.text(220, 260, 'You have beaten the Game!', { fill: '#FFF' }).setScale(1.5);
+
         this.matter.pause();
     }
 

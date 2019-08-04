@@ -5,9 +5,18 @@ class MainMenu extends Phaser.Scene {
 
     preload() {
         this.load.image("Player", "assets/player.png");
+        this.load.audio("Music", ["assets/music.wav"]);
     }
 
     create() {
+        this.soundFX = this.sound.add("Music", {loop: "true"});
+        this.soundFX.play();
+
+        if (this.soundFX.isPlaying) {
+            this.soundFX.stop();
+        }
+        
+        this.soundFX.resume();
         // Creating the main menu and level selector
         this.add.text(330, 80, "The Shot!", { fontFamily: "'Roboto Condensed'", fill: "#FFF" }).setScale(2);
 
