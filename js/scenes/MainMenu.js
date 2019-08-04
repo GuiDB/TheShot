@@ -77,12 +77,14 @@ class MainMenu extends Phaser.Scene {
         this.add.text(500, 280, "a force into the ball.", { fontFamily: "Verdana, 'Times New Roman', Tahoma, serif", fill: "#FFF" });
         this.add.text(500, 310, "Try it out!", { fontFamily: "Verdana, 'Times New Roman', Tahoma, serif", fill: "#FFF" });
 
+        this.matter.world.setBounds(0, 0, 800, 600, 32, true, true, false, true);
+
         // Creating the player just for tutorial/fun purposes
-        this.player = this.physics.add.image(100, 450, "Player");
-        this.player.setInteractive();
-        this.player.setCollideWorldBounds(true);
-        this.player.setBounce(0.25);
-        this.player.body.setMaxSpeed(1000);
+        this.player = this.matter.add.image(100, 450, "Player");
+        this.player.setCircle();
+        this.player.setBounce(0.5);
+        this.player.setMass(20);
+        // this.player.body.setMaxSpeed(1000);
         this.player.scaleX = this.player.scaleX / 5;
         this.player.scaleY = this.player.scaleY / 5;
 
@@ -90,8 +92,10 @@ class MainMenu extends Phaser.Scene {
 
         // Events
         this.input.on("pointerup", (e) => {
-            this.player.body.velocity.x += (((e.x) - (this.player.x)) * 2);
-            this.player.body.velocity.y += (((e.y) - (this.player.y)) * 2);
+            let x = (((e.x) - (this.player.x)) * 2) / 50;
+            let y = (((e.y) - (this.player.y)) * 2) / 50;
+            this.player.setVelocityX(this.player.body.velocity.x + x);
+            this.player.setVelocityY(this.player.body.velocity.y + y);
         });
     }
 

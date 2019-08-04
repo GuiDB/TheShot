@@ -14,44 +14,72 @@ class Level1 extends Phaser.Scene {
     }
 
     create() {
+        Level1.clicked = false;
+
         // Configuring my Scene
         this.add.image(400, 300, "Background").setScale(1.5);
+
+        // Buttons and UI
+        var mainMenu = this.add.text(50, 25, "Main menu", { fontFamily: "Verdana, 'Times New Roman', Tahoma, serif", fill: "#FFF" })
+            .setInteractive()
+            .on("pointerup", () => this.scene.start("MainMenu"))
+            .on("pointerover", () => this.enterButtonHoverState(mainMenu))
+            .on("pointerout", () => this.enterButtonRestState(mainMenu));
+            
+        var restart = this.add.text(700, 25, "Restart", { fontFamily: "Verdana, 'Times New Roman', Tahoma, serif", fill: "#FFF" })
+            .setInteractive()
+            .on("pointerup", () => this.scene.start())
+            .on("pointerover", () => this.enterButtonHoverState(restart))
+            .on("pointerout", () => this.enterButtonRestState(restart));
+
         this.add.text(280, 100, 'You have only ONE SHOT!', { fill: '#FFF' });
 
-        this.player = this.physics.add.image(100, 450, "Player");
-        this.player.setInteractive();
-        this.player.setBounce(0.25);
-        this.player.body.setMaxSpeed(1000);
+        // Creating the player
+        this.player = this.matter.add.image(100, 450, "Player")
+            .setCircle()
+            .setBounce(0.5)
+            .setMass(20);
         this.player.scaleX = this.player.scaleX / 5;
         this.player.scaleY = this.player.scaleY / 5;
 
         this.line = this.add.line(0, 0, 0, 0, 0, 0, 0xff0000).setOrigin(0, 0);
 
-        this.ground = this.physics.add.staticGroup();
-        this.ground.create(400, 550, "Ground").setScale(2).refreshBody();
+        this.ground = this.matter.add.image(400, 550, "Ground")
+            .setStatic(true)
+            .setScale(2);
 
-        this.finish = this.physics.add.staticGroup();
-        this.finish.create(600, 500-80, "Finish").setScale(0.5).refreshBody();
+        this.finish = this.matter.add.image(600, 500-80, "Finish")
+            .setStatic(true)
+            .setScale(0.5);
 
         // Adding events
         this.input.on("pointerup", (e) => {
             if (!Level1.clicked) {
-                this.player.body.velocity.x += (((e.x) - (this.player.x)) * 2);
-                this.player.body.velocity.y += (((e.y) - (this.player.y)) * 2);
+                let x = (((e.x) - (this.player.x)) * 2) / 50;
+                let y = (((e.y) - (this.player.y)) * 2) / 50;
+                this.player.setVelocityX(this.player.body.velocity.x + x);
+                this.player.setVelocityY(this.player.body.velocity.y + y);
                 Level1.clicked = true;
             }
         });
 
         // Physics events
-        this.physics.add.collider(this.player, this.ground);
-        this.physics.add.overlap(this.player, this.finish, this.levelFinish, null, this);
+        this.matter.world.on("collisionstart", (e) => {
+            if (e.pairs[0].bodyA.gameObject !== null) {
+                if (e.pairs[0].bodyA.gameObject.texture.key == "Player"
+                        && e.pairs[0].bodyB.gameObject.texture.key == "Finish") {
+
+                    this.levelFinish();
+                }
+            }
+        });
     }
 
     static lastLine;
 
     update(delta) {
         var pointer = this.input.activePointer;
-        if (pointer.isDown) {
+        if (pointer.isDown && !Level1.clicked) {
             this.line.destroy();
             this.line = this.add.line(
                 0,
@@ -67,8 +95,16 @@ class Level1 extends Phaser.Scene {
         }
     }
 
-    levelFinish(player, finish) {
+    levelFinish() {
         console.log("You Win!");
-        this.physics.pause();
+        this.matter.pause();
+    }
+
+    enterButtonHoverState(button) {
+        button.setStyle({ fill: "#99C1FF"});
+    }
+
+    enterButtonRestState(button) {
+        button.setStyle({ fill: "#FFF" });
     }
 }
