@@ -1,0 +1,29 @@
+{
+  "name": "theshot",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">\r   <img src=\"screenshots/cover.png\">\r </p>",
+  "main": "index.js",
+  "scripts": {
+    "dev": "http-server -p 8080",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuiBDBello/TheShot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GuiBDBello/TheShot/issues"
+  },
+  "homepage": "https://github.com/GuiBDBello/TheShot#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "http-server": "^0.12.3"
+  },
+  "devDependencies": {
+    "webpack": "^5.28.0",
+    "webpack-cli": "^4.6.0"
+  }
+}
