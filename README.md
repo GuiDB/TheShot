@@ -10,7 +10,7 @@
   You have to complete each level in only ONE SHOT!
   <br />
   <br />
-  <a href="github_io_demo_url">Play Demo</a>
+  <a href="https://guibdbello.itch.io/the-shot">Play Demo</a>
   ·
   <a href="https://github.com/GuiBDBello/TheShot/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
   ·
